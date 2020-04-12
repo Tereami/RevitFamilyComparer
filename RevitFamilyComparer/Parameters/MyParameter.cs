@@ -1,4 +1,16 @@
-﻿using System;
+﻿#region License
+/*Данный код опубликован под лицензией Creative Commons Attribution-ShareAlike.
+Разрешено использовать, распространять, изменять и брать данный код за основу для производных в коммерческих и
+некоммерческих целях, при условии указания авторства и если производные лицензируются на тех же условиях.
+Код поставляется "как есть". Автор не несет ответственности за возможные последствия использования.
+Зуев Александр, 2020, все права защищены.
+This code is listed under the Creative Commons Attribution-ShareAlike license.
+You may use, redistribute, remix, tweak, and build upon this work non-commercially and commercially,
+as long as you credit the author by linking back and license your new creations under the same terms.
+This code is provided 'as is'. Author disclaims any implied warranty.
+Zuev Aleksandr, 2020, all rigths reserved.*/
+#endregion
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,6 +24,7 @@ namespace RevitFamilyComparer
     {
         public string Name;
         public string Value;
+        public string Formula;
         public string Units;
         public MyParameterType ParamType;
 
@@ -21,10 +34,11 @@ namespace RevitFamilyComparer
             Value = value;
         }
 
-        public MyParameter(Parameter param)
+        public MyParameter(Parameter param, bool UseValue)
         {
+            InternalDefinition def = param.Definition as InternalDefinition;
 
-            Name = param.Definition.Name;
+            Name = def.Name;
 
             if (param.IsShared)
             {
@@ -32,7 +46,6 @@ namespace RevitFamilyComparer
             }
             else
             {
-                InternalDefinition def = param.Definition as InternalDefinition;
                 if(def.BuiltInParameter == BuiltInParameter.INVALID)
                 {
                     ParamType = MyParameterType.Family;
@@ -43,12 +56,13 @@ namespace RevitFamilyComparer
                 }
             }
 
+            Units = Enum.GetName(typeof(Autodesk.Revit.DB.UnitType), param.Definition.UnitType);
 
-            if (!param.HasValue)
+            if (!UseValue || !param.HasValue)
             {
                 Value = "NO VALUE";
             }
-            else if (param.Definition.ParameterType == ParameterType.YesNo)
+            else if (def.ParameterType == ParameterType.YesNo)
             {
                 int intval = param.AsInteger();
                 Value = "false";
@@ -78,7 +92,7 @@ namespace RevitFamilyComparer
                 }
             }
 
-            Units = Enum.GetName(typeof(Autodesk.Revit.DB.UnitType), param.Definition.UnitType);
+            
         }
     }
 }

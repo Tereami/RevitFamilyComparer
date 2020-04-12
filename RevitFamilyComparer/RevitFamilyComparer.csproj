@@ -50,9 +50,15 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App.cs" />
+    <Compile Include="BasicFamilySettings.cs" />
     <Compile Include="FamilyInfo.cs" />
-    <Compile Include="MyParameter.cs" />
+    <Compile Include="Geometry\FamilyGeometryForm.cs" />
+    <Compile Include="Geometry\GeometryElement.cs" />
+    <Compile Include="FamilyCharacteristic.cs" />
+    <Compile Include="Parameters\MyFamilyParameter.cs" />
+    <Compile Include="Parameters\MyParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
