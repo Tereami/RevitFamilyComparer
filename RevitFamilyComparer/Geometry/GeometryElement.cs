@@ -10,10 +10,8 @@ namespace RevitFamilyComparer.Geometry
     {
         public int Id;
         public string TypeName;
+        //public string HostId;
 
-        public bool VisibleLowLevel;
-        public bool VisibleMiddleLevel;
-        public bool VisibleHighLevel;
-        public bool VisibleOnPlans;
+        public GeometryVisibility geomVisibility;
     }
 }

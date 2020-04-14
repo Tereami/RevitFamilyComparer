@@ -51,13 +51,19 @@
   <ItemGroup>
     <Compile Include="App.cs" />
     <Compile Include="BasicFamilySettings.cs" />
+    <Compile Include="FamilyDimension.cs" />
     <Compile Include="FamilyInfo.cs" />
     <Compile Include="Geometry\FamilyGeometryForm.cs" />
+    <Compile Include="Geometry\GeometryCurve.cs" />
     <Compile Include="Geometry\GeometryElement.cs" />
     <Compile Include="FamilyCharacteristic.cs" />
+    <Compile Include="Geometry\GeometrySketch.cs" />
+    <Compile Include="Geometry\GeometryVisibility.cs" />
     <Compile Include="Parameters\MyFamilyParameter.cs" />
     <Compile Include="Parameters\MyParameter.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="References\ReferenceLine.cs" />
+    <Compile Include="References\RefPlane.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

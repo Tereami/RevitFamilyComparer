@@ -53,5 +53,16 @@ namespace RevitFamilyComparer
 
             Units = Enum.GetName(typeof(DisplayUnitType), param.DisplayUnitType);
         }
+
+        public static List<MyFamilyParameter> CollectFamilyParameters(Document famDoc)
+        {
+            List<MyFamilyParameter> myFamParams = new List<MyFamilyParameter>();
+            foreach (FamilyParameter fp in famDoc.FamilyManager.Parameters)
+            {
+                MyFamilyParameter mfp = new MyFamilyParameter(fp);
+                myFamParams.Add(mfp);
+            }
+            return myFamParams;
+        }
     }
 }
