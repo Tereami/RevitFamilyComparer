@@ -19,6 +19,12 @@ namespace RevitFamilyComparer.Geometry
         public bool VisibleOnlyWhenCut;
         public string VisibilityType;
 
+
+        public GeometryVisibility()
+        {
+
+        }
+
         public GeometryVisibility(FamilyElementVisibility fev)
         {
             VisibleInLowLeveL = fev.IsShownInCoarse;

@@ -19,9 +19,14 @@ namespace RevitFamilyComparer
         public List<MyParameter> List_AssociatedParameters;
         public MyParameterType ParamType;
 
+        public MyFamilyParameter()
+        {
+
+        }
 
         public MyFamilyParameter(FamilyParameter param)
         {
+            List_AssociatedParameters = new List<MyParameter>();
             InternalDefinition def = param.Definition as InternalDefinition;
             Name = def.Name;
 
@@ -51,7 +56,7 @@ namespace RevitFamilyComparer
                 List_AssociatedParameters.Add(myasparam);
             }
 
-            Units = Enum.GetName(typeof(DisplayUnitType), param.DisplayUnitType);
+            Units = Enum.GetName(typeof(StorageType), param.StorageType);
         }
 
         public static List<MyFamilyParameter> CollectFamilyParameters(Document famDoc)

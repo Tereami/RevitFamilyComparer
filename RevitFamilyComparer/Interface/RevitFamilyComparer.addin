@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RevitAddIns>
+  <AddIn Type="Application">    
+    <Name>RevitFamilyComparer</Name>
+	<Assembly>
+    RevitFamilyComparer.dll
+  </Assembly>
+    <ClientId>78072c8d-70a1-4b9a-9c20-0f2c0adf59a3</ClientId>
+    <FullClassName>RevitFamilyComparer.App</FullClassName>
+    <VendorId>Weandrevit</VendorId>
+    <VendorDescription>weandrevit.ru</VendorDescription>
+  </AddIn>
+</RevitAddIns>

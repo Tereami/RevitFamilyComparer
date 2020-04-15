@@ -13,6 +13,12 @@ namespace RevitFamilyComparer.Geometry
 
         public List<int> CurveIds;
 
+
+        public GeometrySketch()
+        {
+
+        }
+
         public GeometrySketch(int id, int refPlaneId, List<int> curveIds)
         {
             Id = id;
@@ -47,6 +53,7 @@ namespace RevitFamilyComparer.Geometry
 
         private void GetCurves(Autodesk.Revit.DB.CurveArrArray caa)
         {
+            CurveIds = new List<int>();
             foreach (Autodesk.Revit.DB.CurveArray ar in caa)
             {
                 foreach (Autodesk.Revit.DB.Curve cur in ar)

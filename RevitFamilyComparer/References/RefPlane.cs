@@ -14,6 +14,11 @@ namespace RevitFamilyComparer
         public string RefPlaneName;
        
 
+        public RefPlane()
+        {
+
+        }
+
         public RefPlane(Autodesk.Revit.DB.ReferencePlane rp)
         {
             Id = rp.Id.IntegerValue;

@@ -15,6 +15,11 @@ namespace RevitFamilyComparer.Geometry
         public string SubcategoryName;
         public List<GeometrySketch> Profiles;
 
+        public FamilyGeometryForm()
+        {
+
+        }
+
         public FamilyGeometryForm (Autodesk.Revit.DB.GenericForm form)
         {
             Id = form.Id.IntegerValue;

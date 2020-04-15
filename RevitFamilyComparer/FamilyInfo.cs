@@ -24,30 +24,71 @@ namespace RevitFamilyComparer
     public class FamilyInfo
     {
         public string Name;
+        BasicFamilySettings BasicSettings;
+        public List<MyFamilyParameter> List_myFamParams;
         public List<FamilyCharacteristic> List_FamilyChars;
+        public List<RefPlane> List_RefPlanes;
+        public List<FamilyDimension> List_FamilyDimensions;
+        public List<Geometry.GeometryCurve> List_Curves;
+        public List<Geometry.FamilyGeometryForm> List_Forms;
+        public List<FamilyInfo> List_NestedFamilies;
+        public FamilyInfo()
+        {
 
+        }
         public FamilyInfo(Document famDoc)
         {
             Family fam = famDoc.OwnerFamily;
-            Name = fam.Name;
-            BasicFamilySettings bfc = new BasicFamilySettings(fam);
-            List_FamilyChars.Add(new FamilyCharacteristic("BasicFamilySettings", bfc));
 
-            List<MyFamilyParameter> List_myFamParams = MyFamilyParameter.CollectFamilyParameters(famDoc);
-            List_FamilyChars.Add(new FamilyCharacteristic("FamilyParameters", List_myFamParams));
+            if (famDoc.Title.EndsWith(".rfa"))
+                Name = famDoc.Title.Substring(0, famDoc.Title.Length - 4);
+            else
+                Name = famDoc.Title;
+
+            BasicSettings = new BasicFamilySettings(fam);
+
+            List_myFamParams = MyFamilyParameter.CollectFamilyParameters(famDoc);
+
+            List_FamilyChars = new List<FamilyCharacteristic>();
+
+            List_RefPlanes = RefPlane.CollectRefPlanes(famDoc);
+            //List_FamilyChars.Add(new FamilyCharacteristic("ReferencePlanes", List_RefPlanes));
+
+            List_FamilyDimensions = FamilyDimension.CollectDimensions(famDoc);
+            //List_FamilyChars.Add(new FamilyCharacteristic("Dimensions", familyDimensions));
+
+            List_Curves = Geometry.GeometryCurve.CollectCurves(famDoc);
+            //List_FamilyChars.Add(new FamilyCharacteristic("Dimensions", familyDimensions));
+
+            List_Forms = Geometry.FamilyGeometryForm.CollectForms(famDoc);
+            //List_FamilyChars.Add(new FamilyCharacteristic("Forms", forms));
+
+            List_NestedFamilies = GetNestedFamilies(famDoc, false);
+            //List_FamilyChars.Add(new FamilyCharacteristic("Forms", forms));
+        }
 
 
-            List<RefPlane> List_RefPlanes = RefPlane.CollectRefPlanes(famDoc);
-            List_FamilyChars.Add(new FamilyCharacteristic("ReferencePlanes", List_RefPlanes));
+        private List<FamilyInfo> GetNestedFamilies(Document famDoc, bool GetNonSharedFamilies)
+        {
+            List<FamilyInfo> fams = new List<FamilyInfo>();
 
-            List<FamilyDimension> familyDimensions = FamilyDimension.CollectDimensions(famDoc);
-            List_FamilyChars.Add(new FamilyCharacteristic("Dimensions", familyDimensions));
+            List<Family> fis = new FilteredElementCollector(famDoc)
+                .WhereElementIsNotElementType()
+                .OfClass(typeof(Family))
+                .Cast<Family>()
+                .ToList();
+            foreach(Family fam in fis)
+            {
+                if (!fam.IsEditable) continue;
+                int IsShared = fam.get_Parameter(BuiltInParameter.FAMILY_SHARED).AsInteger();
+                if (!GetNonSharedFamilies && IsShared == 0) continue;
 
-            List<Geometry.GeometryCurve> curves = Geometry.GeometryCurve.CollectCurves(famDoc);
-            List_FamilyChars.Add(new FamilyCharacteristic("Dimensions", familyDimensions));
-
-            List<Geometry.FamilyGeometryForm> forms = Geometry.FamilyGeometryForm.CollectForms(famDoc);
-            List_FamilyChars.Add(new FamilyCharacteristic("Forms", forms));
+                Document nestedFamDoc = famDoc.EditFamily(fam);
+                FamilyInfo nestedFi = new FamilyInfo(nestedFamDoc);
+                fams.Add(nestedFi);
+                nestedFamDoc.Close(false);
+            }
+            return fams;
         }
     }
 }

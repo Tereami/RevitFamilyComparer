@@ -16,11 +16,22 @@ namespace RevitFamilyComparer
         public List<int> List_ReferenceElementIds;
         public int SegmentsCount;
         
+
+        public FamilyDimension()
+        {
+
+        }
+
         public FamilyDimension(Autodesk.Revit.DB.Dimension dim)
         {
             Id = dim.Id.IntegerValue;
-            ViewName = dim.View.Name;
-            DimTypeName = dim.Name;
+
+            if (dim.View != null)
+                ViewName = dim.View.Name;
+            else
+                ViewName = "null";
+
+            DimTypeName = dim.DimensionType.Name; ;
             IsEQ = dim.AreSegmentsEqual;
             SegmentsCount = dim.Segments.Size;
 

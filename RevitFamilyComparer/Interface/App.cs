@@ -35,10 +35,17 @@ namespace RevitFamilyComparer
             try { application.CreateRibbonTab(tabName); } catch { }
             RibbonPanel panel = application.CreateRibbonPanel(tabName, solutionName);
             PushButton btn = panel.AddItem(new PushButtonData(
-                "GetFamilyXml",
-                "GetFamilyXml",
+                "CommandGetFamilyXml",
+                "CommandGetFamilyXml",
                 assemblyPath,
-                solutionName + ".CommandCreateAreaRebar")
+                solutionName + ".Interface.CommandGetFamilyXml")
+                ) as PushButton;
+
+            PushButton btn2 = panel.AddItem(new PushButtonData(
+                "CommandCompareFamily",
+                "CommandCompareFamily",
+                assemblyPath,
+                solutionName + ".Interface.CommandCompareFamily")
                 ) as PushButton;
 
             return Result.Succeeded;

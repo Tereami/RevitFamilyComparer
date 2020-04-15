@@ -11,9 +11,16 @@ namespace RevitFamilyComparer
     {
         public List<MyParameter> List_OrderParameters;
 
+
+        public BasicFamilySettings()
+        {
+
+        }
+
         public BasicFamilySettings(Family fam)
         {
-            foreach(Parameter p in fam.GetOrderedParameters())
+            List_OrderParameters = new List<MyParameter>();
+            foreach (Parameter p in fam.GetOrderedParameters())
             {
                 MyParameter mp = new MyParameter(p, true);
                 List_OrderParameters.Add(mp);

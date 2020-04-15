@@ -12,6 +12,12 @@ namespace RevitFamilyComparer
         public string Name;
         public object Characteristic;
 
+
+        public FamilyCharacteristic()
+        {
+
+        }
+
         public FamilyCharacteristic(string name, object famChar)
         {
             Name = name;

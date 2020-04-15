@@ -28,6 +28,10 @@ namespace RevitFamilyComparer
         public string Units;
         public MyParameterType ParamType;
 
+        public MyParameter()
+        {
+
+        }
         public MyParameter(string name, string value)
         {
             Name = name;

@@ -18,6 +18,11 @@ namespace RevitFamilyComparer.Geometry
         public List<int> List_AdjoinedElementsEnd0;
         public List<int> List_AdjoinedElementsEnd1;
 
+        public GeometryCurve()
+        {
+
+        }
+
         public GeometryCurve(Autodesk.Revit.DB.CurveElement curve)
         {
             this.Id = curve.Id.IntegerValue;
@@ -25,6 +30,8 @@ namespace RevitFamilyComparer.Geometry
             List_AdjoinedElementsEnd0 = curve.GetAdjoinedCurveElements(0).Select(i => i.IntegerValue).ToList();
 
             this.LineType = Enum.GetName(typeof(CurveElementType), curve.CurveElementType);
+
+            
 
             if (curve.CurveElementType == CurveElementType.ModelCurve)
             {
@@ -35,7 +42,16 @@ namespace RevitFamilyComparer.Geometry
                 this.HasTangentLockEnd0 = mcurve.HasTangentLocks(0);
                 this.HasTangentLockEnd1 = mcurve.HasTangentLocks(1);
                 //this.HostId = mcurve.LevelId.IntegerValue;
-                this.SubcategoryName = mcurve.Subcategory.Name;
+
+                try
+                {
+                    this.SubcategoryName = mcurve.Subcategory.Name;
+                }
+                catch
+                {
+                    this.SubcategoryName = "null";
+                }
+                
                 this.TypeName = mcurve.LineStyle.Name;
             }
             else if(curve.CurveElementType == CurveElementType.SymbolicCurve)
