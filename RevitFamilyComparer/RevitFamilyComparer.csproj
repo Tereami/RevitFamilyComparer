@@ -51,7 +51,7 @@
     <Reference Include="System.Xml" />
     <Reference Include="XmlComparer">
       <HintPath>..\..\XmlComparer\XmlComparer\bin\Debug\XmlComparer.dll</HintPath>
-      <Private>False</Private>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -62,17 +62,29 @@
     <Compile Include="Geometry\FamilyGeometryForm.cs" />
     <Compile Include="Geometry\GeometryCurve.cs" />
     <Compile Include="Geometry\GeometryElement.cs" />
-    <Compile Include="FamilyCharacteristic.cs" />
     <Compile Include="Geometry\GeometrySketch.cs" />
     <Compile Include="Geometry\GeometryVisibility.cs" />
+    <Compile Include="Interface\CommandCheckNestedFamily.cs" />
     <Compile Include="Interface\CommandCompareFamily.cs" />
     <Compile Include="Interface\CommandGetFamilyXml.cs" />
     <Compile Include="Interface\FilesWorker.cs" />
+    <Compile Include="Interface\FormCheckNestedFamily.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\FormCheckNestedFamily.Designer.cs">
+      <DependentUpon>FormCheckNestedFamily.cs</DependentUpon>
+    </Compile>
     <Compile Include="Interface\FormResult.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="Interface\FormResult.Designer.cs">
       <DependentUpon>FormResult.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Interface\FormResultNestedFamily.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Interface\FormResultNestedFamily.Designer.cs">
+      <DependentUpon>FormResultNestedFamily.cs</DependentUpon>
     </Compile>
     <Compile Include="Parameters\MyFamilyParameter.cs" />
     <Compile Include="Parameters\MyParameter.cs" />
@@ -84,8 +96,14 @@
     <None Include="Interface\RevitFamilyComparer.addin" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Interface\FormCheckNestedFamily.resx">
+      <DependentUpon>FormCheckNestedFamily.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Interface\FormResult.resx">
       <DependentUpon>FormResult.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Interface\FormResultNestedFamily.resx">
+      <DependentUpon>FormResultNestedFamily.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

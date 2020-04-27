@@ -49,6 +49,7 @@
             this.ClientSize = new System.Drawing.Size(612, 384);
             this.Controls.Add(this.richTextBox1);
             this.Name = "FormResult";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "FormResult";
             this.ResumeLayout(false);
 

@@ -13,7 +13,7 @@ namespace RevitFamilyComparer.Geometry
         public FormTypeEnum FormType;
         public bool IsSolidGeometry;
         public string SubcategoryName;
-        public List<GeometrySketch> Profiles;
+        public List<GeometrySketch> List_Profiles;
 
         public FamilyGeometryForm()
         {
@@ -45,7 +45,7 @@ namespace RevitFamilyComparer.Geometry
                 Extrusion ex = form as Extrusion;
                 Sketch extrusionProfile = ex.Sketch;
                 GeometrySketch gs = new GeometrySketch(extrusionProfile);
-                Profiles = new List<GeometrySketch> { gs };
+                List_Profiles = new List<GeometrySketch> { gs };
             }
             else if(form is Blend)
             {
@@ -53,7 +53,7 @@ namespace RevitFamilyComparer.Geometry
                 Blend bl = form as Blend;
                 GeometrySketch TopProfile = new GeometrySketch(bl.TopSketch);
                 GeometrySketch BottomProfile = new GeometrySketch(bl.BottomSketch);
-                Profiles = new List<GeometrySketch> { TopProfile, BottomProfile };
+                List_Profiles = new List<GeometrySketch> { TopProfile, BottomProfile };
             }
             else if(form is Revolution)
             {
@@ -63,22 +63,22 @@ namespace RevitFamilyComparer.Geometry
                 GeometrySketch gs = new GeometrySketch(revProfile);
 
                 GeometrySketch axis = new GeometrySketch(rev.Axis.Id.IntegerValue, -1, null);
-                Profiles = new List<GeometrySketch> { gs, axis };
+                List_Profiles = new List<GeometrySketch> { gs, axis };
             }
             else if(form is Sweep)
             {
                 FormType = FormTypeEnum.Sweep;
                 Sweep sw = form as Sweep;
-                Profiles = new List<GeometrySketch>();
+                List_Profiles = new List<GeometrySketch>();
                 if (sw.Path3d != null)
                 {
                     GeometrySketch gs = new GeometrySketch(sw.Path3d);
-                    Profiles.Add(gs);
+                    List_Profiles.Add(gs);
                 }
                 else if(sw.PathSketch != null)
                 {
                     GeometrySketch gs = new GeometrySketch(sw.PathSketch);
-                    Profiles.Add(gs);
+                    List_Profiles.Add(gs);
                 }
 
                 if(sw.ProfileSymbol != null)
@@ -88,30 +88,30 @@ namespace RevitFamilyComparer.Geometry
                 else if(sw.ProfileSketch != null)
                 {
                     GeometrySketch gs = new GeometrySketch(sw.ProfileSketch);
-                    Profiles.Add(gs);
+                    List_Profiles.Add(gs);
                 }
             }
             else if(form is SweptBlend)
             {
                 FormType = FormTypeEnum.SweptBlend;
                 SweptBlend sb = form as SweptBlend;
-                Profiles = new List<GeometrySketch>();
+                List_Profiles = new List<GeometrySketch>();
                 if (sb.SelectedPath != null)
                 {
                     Curve path = sb.SelectedPath;
                     GeometrySketch gs = new GeometrySketch(path.Reference.ElementId.IntegerValue, -1, null);
-                    Profiles.Add(gs);
+                    List_Profiles.Add(gs);
                 }
                 else if (sb.PathSketch != null)
                 {
                     GeometrySketch gs = new GeometrySketch(sb.PathSketch);
-                    Profiles.Add(gs);
+                    List_Profiles.Add(gs);
                 }
 
                 GeometrySketch gs1 = new GeometrySketch(sb.TopProfile);
                 GeometrySketch gs2 = new GeometrySketch(sb.BottomProfile);
-                Profiles.Add(gs1);
-                Profiles.Add(gs2);
+                List_Profiles.Add(gs1);
+                List_Profiles.Add(gs2);
 
             }
 

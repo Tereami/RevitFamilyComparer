@@ -48,6 +48,13 @@ namespace RevitFamilyComparer
                 solutionName + ".Interface.CommandCompareFamily")
                 ) as PushButton;
 
+            PushButton btn3 = panel.AddItem(new PushButtonData(
+                "CommandCheckNestedFamily",
+                "CommandCheckNestedFamily",
+                assemblyPath,
+                solutionName + ".Interface.CommandCheckNestedFamily")
+                ) as PushButton;
+
             return Result.Succeeded;
         }
         public Result OnShutdown(UIControlledApplication application)
