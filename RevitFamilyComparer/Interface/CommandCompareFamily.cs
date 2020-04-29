@@ -35,13 +35,9 @@ namespace RevitFamilyComparer.Interface
             FamilyInfo fi2 = new FamilyInfo(famdoc2);
             fi2.ApplyIdOffset(fi1);
 
-            FamilyInfo fi2_v0 = new FamilyInfo(famdoc2);
-            fi2_v0.ApplyIdOffsetVersion1(fi1);
-
             //first time I think that all ids moves to constant distance... naive me
             //int idOffset = famdoc2.OwnerFamily.Id.IntegerValue - famdoc1.OwnerFamily.Id.IntegerValue;
             //int idOffset = fi2.List_RefPlanes.First().Id - fi1.List_RefPlanes.First().Id;
-
 
 
 
@@ -50,20 +46,13 @@ namespace RevitFamilyComparer.Interface
 
             string xml1 = fi1.SerializeToXml();
             string xml2 = fi2.SerializeToXml();
-            string xml2_v0 = fi2_v0.SerializeToXml();
 
             //the most interesting thing is doing in another solution, look at https://github.com/Tereami/XmlComparer
             string result = XmlComparer.Comparer.CompareXmls(xml1, xml2);
 
-            string result_v0 = XmlComparer.Comparer.CompareXmls(xml1, xml2_v0);
-
-            string finalResult = "COMPARE BY METHOD WITH RENUMBER IDS:\n"
-                + result
-                + "\n\nCOMPARE BY METHOD WITH IDS SHIFTING BY CONSTANT DISTANCE:\n"
-                + result_v0;
                 
 
-            FormResult form = new FormResult(finalResult);
+            FormResult form = new FormResult(result);
             form.ShowDialog();
 
 
