@@ -25,41 +25,37 @@ namespace RevitFamilyComparer
     {
         public static string assemblyPath = "";
         public static string assemblyFolder = "";
+        public static string solutionName = "";
         public Result OnStartup(UIControlledApplication application)
         {
             assemblyPath = System.Reflection.Assembly.GetExecutingAssembly().Location;
             assemblyFolder = System.IO.Path.GetDirectoryName(assemblyPath);
 
             string tabName = "Weandrevit";
-            string solutionName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
+            solutionName = System.Reflection.Assembly.GetExecutingAssembly().GetName().Name;
             try { application.CreateRibbonTab(tabName); } catch { }
             RibbonPanel panel = application.CreateRibbonPanel(tabName, solutionName);
-            PushButton btn = panel.AddItem(new PushButtonData(
-                "CommandGetFamilyXml",
-                "CommandGetFamilyXml",
-                assemblyPath,
-                solutionName + ".Interface.CommandGetFamilyXml")
-                ) as PushButton;
 
-            PushButton btn2 = panel.AddItem(new PushButtonData(
-                "CommandCompareFamily",
-                "CommandCompareFamily",
-                assemblyPath,
-                solutionName + ".Interface.CommandCompareFamily")
-                ) as PushButton;
-
-            PushButton btn3 = panel.AddItem(new PushButtonData(
-                "CommandCheckNestedFamily",
-                "CommandCheckNestedFamily",
-                assemblyPath,
-                solutionName + ".Interface.CommandCheckNestedFamily")
-                ) as PushButton;
+            PushButton btn = CreateButton("CommandGetFamilyXml", panel);
+            PushButton btn2 = CreateButton("CommandCompareFamily", panel);
+            PushButton btn3 = CreateButton("CommandCheckNestedFamily", panel);
 
             return Result.Succeeded;
         }
         public Result OnShutdown(UIControlledApplication application)
         {
             return Result.Succeeded;
+        }
+
+        private PushButton CreateButton(string Name, RibbonPanel pan)
+        {
+            PushButton btn = pan.AddItem(new PushButtonData(
+                Name,
+                Name,
+                assemblyPath,
+                solutionName + ".Interface." + Name)
+                ) as PushButton;
+            return btn;
         }
 
     }

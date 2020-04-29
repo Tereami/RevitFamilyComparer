@@ -56,9 +56,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Interface\App.cs" />
-    <Compile Include="BasicFamilySettings.cs" />
-    <Compile Include="FamilyDimension.cs" />
-    <Compile Include="FamilyInfo.cs" />
+    <Compile Include="BaseLogic\BasicFamilySettings.cs" />
+    <Compile Include="Parameters\FamilyDimension.cs" />
+    <Compile Include="BaseLogic\FamilyInfo.cs" />
     <Compile Include="Geometry\FamilyGeometryForm.cs" />
     <Compile Include="Geometry\GeometryCurve.cs" />
     <Compile Include="Geometry\GeometryElement.cs" />
