@@ -7,6 +7,9 @@ using Autodesk.Revit.DB;
 
 namespace RevitFamilyComparer
 {
+    /// <summary>
+    /// Definition of Dimension element
+    /// </summary>
     public class FamilyDimension
     {
         public int Id;
@@ -42,6 +45,11 @@ namespace RevitFamilyComparer
             }
         }
 
+        /// <summary>
+        /// Get all Dimension in a Document
+        /// </summary>
+        /// <param name="familyDocument"></param>
+        /// <returns></returns>
         public static List<FamilyDimension> CollectDimensions(Document familyDocument)
         {
             List<FamilyDimension> dims = new FilteredElementCollector(familyDocument)

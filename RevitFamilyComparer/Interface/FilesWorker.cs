@@ -8,6 +8,9 @@ using System.IO;
 
 namespace RevitFamilyComparer.Interface
 {
+    /// <summary>
+    /// Another dummy class to working with files
+    /// </summary>
     public static class FilesWorker
     {
         public static string GetFamilyFileByUser(string windowTitle)
@@ -32,11 +35,11 @@ namespace RevitFamilyComparer.Interface
         }
 
         /// <summary>
-        /// Получает из папки список всех семейств и вложенных общих семейств
+        /// Get all families and theit nested families from a library folder
         /// </summary>
         /// <param name="app"></param>
         /// <param name="folder"></param>
-        /// <returns></returns>
+        /// <returns>Key - parent family name, Value - list of nested families in this family</returns>
         public static Dictionary<string, List<string>> GetFamiliesLibrary(
             Autodesk.Revit.ApplicationServices.Application app, string folder)
         {

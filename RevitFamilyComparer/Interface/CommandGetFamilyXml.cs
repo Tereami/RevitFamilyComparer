@@ -8,6 +8,9 @@ using Autodesk.Revit.UI;
 
 namespace RevitFamilyComparer.Interface
 {
+    /// <summary>
+    /// Create family description and save it at XML file
+    /// </summary>
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     class CommandGetFamilyXml : IExternalCommand
     {

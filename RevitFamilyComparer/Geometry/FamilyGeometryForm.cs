@@ -8,6 +8,10 @@ using Autodesk.Revit.DB;
 namespace RevitFamilyComparer.Geometry
 {
     public enum FormTypeEnum { Extrusion, Blend, Revolution, Sweep, SweptBlend, Freeform }
+
+    /// <summary>
+    /// Description of Solid or Empty 3D element in family (Extrusion, Sweep, etc)
+    /// </summary>
     public class FamilyGeometryForm : GeometryElement
     {
         public FormTypeEnum FormType;

@@ -9,6 +9,9 @@ using Autodesk.Revit.ApplicationServices;
 
 namespace RevitFamilyComparer.Interface
 {
+    /// <summary>
+    /// Compare two families and show information about differences
+    /// </summary>
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     class CommandCompareFamily : IExternalCommand
     {
@@ -18,17 +21,18 @@ namespace RevitFamilyComparer.Interface
 
             string famFilePath1 = FilesWorker.GetFamilyFileByUser("Главное семейство");
             if (string.IsNullOrEmpty(famFilePath1)) return Result.Cancelled;
-            //Document famdoc1 = app.OpenDocumentFile(famFilePath1);
+            Document famdoc1 = app.OpenDocumentFile(famFilePath1);
 
             string famFilePath2 = FilesWorker.GetFamilyFileByUser("Семейство для сравнения");
             if (string.IsNullOrEmpty(famFilePath2)) return Result.Cancelled;
-            //Document famdoc2 = app.OpenDocumentFile(famFilePath2);
+            Document famdoc2 = app.OpenDocumentFile(famFilePath2);
 
             //пытаюсь нормализовать смещение id загрузкой семейств в пустой проект
-            
-            FamilyInfo fi1 = GetFamInfoByBlankProjectDocument(famFilePath1, app);
-            FamilyInfo fi2 = GetFamInfoByBlankProjectDocument(famFilePath2, app);
-            
+            //FamilyInfo fi1 = GetFamInfoByBlankProjectDocument(famFilePath1, app);
+            //FamilyInfo fi2 = GetFamInfoByBlankProjectDocument(famFilePath2, app);
+
+            FamilyInfo fi1 = new FamilyInfo(famdoc1);
+            FamilyInfo fi2 = new FamilyInfo(famdoc2);
 
 
             // = new FamilyInfo(famdoc1);
@@ -54,7 +58,12 @@ namespace RevitFamilyComparer.Interface
             return Result.Succeeded;
         }
 
-
+        /// <summary>
+        /// Unlucky atteampt to eliminate shift of Ids throught loading family to blank project
+        /// </summary>
+        /// <param name="famFilePath"></param>
+        /// <param name="app"></param>
+        /// <returns></returns>
         private FamilyInfo GetFamInfoByBlankProjectDocument(string famFilePath, Application app)
         {
             Document blankDoc = app.NewProjectDocument(UnitSystem.Metric);

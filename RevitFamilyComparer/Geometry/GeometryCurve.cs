@@ -7,6 +7,9 @@ using Autodesk.Revit.DB;
 
 namespace RevitFamilyComparer.Geometry
 {
+    /// <summary>
+    /// Description uf Curve element in family
+    /// </summary>
     public class GeometryCurve : GeometryElement
     {
         public string LineFormType;

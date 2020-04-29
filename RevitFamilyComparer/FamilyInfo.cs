@@ -20,6 +20,9 @@ using Autodesk.Revit.DB;
 
 namespace RevitFamilyComparer
 {
+    /// <summary>
+    /// Store information of elements within Family
+    /// </summary>
     [Serializable]
     public class FamilyInfo
     {
@@ -32,6 +35,7 @@ namespace RevitFamilyComparer
         public List<Geometry.GeometryCurve> List_Curves;
         public List<Geometry.FamilyGeometryForm> List_Forms;
         public List<FamilyInfo> List_NestedFamilies;
+
         public FamilyInfo()
         {
 
@@ -68,6 +72,12 @@ namespace RevitFamilyComparer
         }
 
 
+        /// <summary>
+        /// Get nested families are nested in Document
+        /// </summary>
+        /// <param name="famDoc"></param>
+        /// <param name="GetNonSharedFamilies"></param>
+        /// <returns></returns>
         private List<FamilyInfo> GetNestedFamilies(Document famDoc, bool GetNonSharedFamilies)
         {
             List<FamilyInfo> fams = new List<FamilyInfo>();
@@ -96,7 +106,7 @@ namespace RevitFamilyComparer
 
 
         /// <summary>
-        /// Уменьшает значения всех id для сответствия с другми семейством
+        /// Eliminate shift of Ids in case that family is opened from the project or other family
         /// </summary>
         /// <param name="idOffset"></param>
         public void ApplyIdOffset(FamilyInfo baseFi)
@@ -149,9 +159,9 @@ namespace RevitFamilyComparer
 
 
         /// <summary>
-        /// Конвертирует описание семейства в xml
+        /// Convert class to XML string
         /// </summary>
-        /// <returns>Текстовая строка содержащая xml</returns>
+        /// <returns>Text string includes xml</returns>
         public string SerializeToXml()
         {
             System.Xml.Serialization.XmlSerializer serializer =

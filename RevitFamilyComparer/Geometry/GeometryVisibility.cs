@@ -7,6 +7,9 @@ using Autodesk.Revit.DB;
 
 namespace RevitFamilyComparer.Geometry
 {
+    /// <summary>
+    /// Description of Visibility Settings of Element if family
+    /// </summary>
     public class GeometryVisibility
     {
         public bool VisibleInLowLeveL;

@@ -7,6 +7,9 @@ using Autodesk.Revit.DB;
 
 namespace RevitFamilyComparer
 {
+    /// <summary>
+    /// Description af FamilyParameter from FamilyManager, includes units, formula, etc
+    /// </summary>
     public class MyFamilyParameter
     {
         public string Name;

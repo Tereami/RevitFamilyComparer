@@ -8,6 +8,9 @@ using Autodesk.Revit.DB;
 
 namespace RevitFamilyComparer.Interface
 {
+    /// <summary>
+    /// Check version of Shared family that used at nested family in other families, throuh scanning of family files library
+    /// </summary>
     [Autodesk.Revit.Attributes.Transaction(Autodesk.Revit.Attributes.TransactionMode.Manual)]
     class CommandCheckNestedFamily : IExternalCommand
     {
@@ -37,7 +40,7 @@ namespace RevitFamilyComparer.Interface
 
             Dictionary<string,List<string>> library = FilesWorker.GetFamiliesLibrary(app, libraryPath);
 
-            //ищу, в какие семейства загружено моё семейство
+            //search parent families that includes my family
             List<string> parentFams = new List<string>();
             foreach(KeyValuePair<string,List<string>> kvp in library)
             {
@@ -48,7 +51,7 @@ namespace RevitFamilyComparer.Interface
                 }
             }
 
-            //открываю эти семейства и проверяю, отличается ли вложенное семейство
+            //open that parent families and check version of family as nested
             Dictionary<string, string> log = new Dictionary<string, string>();
             foreach(string parentFamFile in parentFams)
             {

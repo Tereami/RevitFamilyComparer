@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 
 namespace RevitFamilyComparer.Geometry
 {
+
     public abstract class GeometryElement
     {
         public int Id;
