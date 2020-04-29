@@ -25,6 +25,18 @@ namespace RevitFamilyComparer
             RefPlaneName = rp.Name;
         }
 
+        public RefPlane(Autodesk.Revit.DB.Level lv)
+        {
+            Id = lv.Id.IntegerValue;
+            RefPlaneName = lv.Name;
+        }
+
+        public RefPlane(Autodesk.Revit.DB.SketchPlane sp)
+        {
+            Id = sp.Id.IntegerValue;
+            RefPlaneName = sp.Name;
+        }
+
         public static List<RefPlane> CollectRefPlanes(Document famDoc)
         {
             List<RefPlane> rps = new FilteredElementCollector(famDoc)
@@ -32,6 +44,22 @@ namespace RevitFamilyComparer
                 .Cast<ReferencePlane>()
                 .Select(i => new RefPlane(i))
                 .ToList();
+
+            List<RefPlane> levels = new FilteredElementCollector(famDoc)
+                .OfClass(typeof(Level))
+                .Cast<Level>()
+                .Select(i => new RefPlane(i))
+                .ToList();
+            rps.AddRange(levels);
+
+            List<RefPlane> sketchPlanes = new FilteredElementCollector(famDoc)
+                .OfClass(typeof(SketchPlane))
+                .Cast<SketchPlane>()
+                .Select(i => new RefPlane(i))
+                .ToList();
+            rps.AddRange(sketchPlanes);
+
+
             return rps;
         }
     }

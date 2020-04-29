@@ -27,62 +27,49 @@ namespace RevitFamilyComparer.Interface
             if (string.IsNullOrEmpty(famFilePath2)) return Result.Cancelled;
             Document famdoc2 = app.OpenDocumentFile(famFilePath2);
 
-            //пытаюсь нормализовать смещение id загрузкой семейств в пустой проект
+            //try to fix ids shift through a new blank document
             //FamilyInfo fi1 = GetFamInfoByBlankProjectDocument(famFilePath1, app);
             //FamilyInfo fi2 = GetFamInfoByBlankProjectDocument(famFilePath2, app);
 
             FamilyInfo fi1 = new FamilyInfo(famdoc1);
             FamilyInfo fi2 = new FamilyInfo(famdoc2);
-
-
-            // = new FamilyInfo(famdoc1);
-            //= new FamilyInfo(famdoc2);
-
-            //int idOffset = famdoc2.OwnerFamily.Id.IntegerValue - famdoc1.OwnerFamily.Id.IntegerValue;
-            //int idOffset = fi2.List_RefPlanes.First().Id - fi1.List_RefPlanes.First().Id;
             fi2.ApplyIdOffset(fi1);
 
+            FamilyInfo fi2_v0 = new FamilyInfo(famdoc2);
+            fi2_v0.ApplyIdOffsetVersion1(fi1);
+
+            //first time I think that all ids moves to constant distance... naive me
+            //int idOffset = famdoc2.OwnerFamily.Id.IntegerValue - famdoc1.OwnerFamily.Id.IntegerValue;
+            //int idOffset = fi2.List_RefPlanes.First().Id - fi1.List_RefPlanes.First().Id;
 
 
-            //famdoc1.Close(false);
-            //famdoc2.Close(false);
+
+
+            famdoc1.Close(false);
+            famdoc2.Close(false);
 
             string xml1 = fi1.SerializeToXml();
             string xml2 = fi2.SerializeToXml();
+            string xml2_v0 = fi2_v0.SerializeToXml();
 
+            //the most interesting thing is doing in another solution, look at https://github.com/Tereami/XmlComparer
             string result = XmlComparer.Comparer.CompareXmls(xml1, xml2);
 
-            FormResult form = new FormResult(result);
+            string result_v0 = XmlComparer.Comparer.CompareXmls(xml1, xml2_v0);
+
+            string finalResult = "COMPARE BY METHOD WITH RENUMBER IDS:\n"
+                + result
+                + "\n\nCOMPARE BY METHOD WITH IDS SHIFTING BY CONSTANT DISTANCE:\n"
+                + result_v0;
+                
+
+            FormResult form = new FormResult(finalResult);
             form.ShowDialog();
+
 
             return Result.Succeeded;
         }
 
-        /// <summary>
-        /// Unlucky atteampt to eliminate shift of Ids throught loading family to blank project
-        /// </summary>
-        /// <param name="famFilePath"></param>
-        /// <param name="app"></param>
-        /// <returns></returns>
-        private FamilyInfo GetFamInfoByBlankProjectDocument(string famFilePath, Application app)
-        {
-            Document blankDoc = app.NewProjectDocument(UnitSystem.Metric);
-            FamilyInfo fi = null;
-            using (Transaction t = new Transaction(blankDoc))
-            {
-                t.Start("load first family");
-                Family fam = null;
-                blankDoc.LoadFamily(famFilePath, out fam);
-                t.Commit();
-                Document famdoc1 = blankDoc.EditFamily(fam);
-                fi = new FamilyInfo(famdoc1);
-                famdoc1.Close(false);
-            }
-            string folder = System.IO.Path.GetDirectoryName(famFilePath);
-            string projectPath = System.IO.Path.Combine(folder, "proj " + fi.Name + DateTime.Now.ToString("HHmmss") + ".rvt");
-            blankDoc.SaveAs(projectPath);
-            blankDoc.Close(false);
-            return fi;
-        }
+        
     }
 }

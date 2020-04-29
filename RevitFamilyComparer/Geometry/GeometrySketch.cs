@@ -11,7 +11,7 @@ namespace RevitFamilyComparer.Geometry
         public int Id;
         public int ReferencePlaneId;
 
-        public List<int> CurveIds;
+        public List<int> List_CurveIds;
 
 
         public GeometrySketch()
@@ -23,7 +23,7 @@ namespace RevitFamilyComparer.Geometry
         {
             Id = id;
             ReferencePlaneId = refPlaneId;
-            CurveIds = curveIds;
+            List_CurveIds = curveIds;
         }
 
         public GeometrySketch(Autodesk.Revit.DB.Sketch sk)
@@ -32,7 +32,7 @@ namespace RevitFamilyComparer.Geometry
             if (sk.SketchPlane == null)
                 ReferencePlaneId = -1;
             else
-                ReferencePlaneId = sk.SketchPlane.Id.IntegerValue;
+                ReferencePlaneId = sk.SketchPlane.GetPlaneReference().ElementId.IntegerValue;
 
             GetCurves(sk.Profile);
         }
@@ -53,12 +53,12 @@ namespace RevitFamilyComparer.Geometry
 
         private void GetCurves(Autodesk.Revit.DB.CurveArrArray caa)
         {
-            CurveIds = new List<int>();
+            List_CurveIds = new List<int>();
             foreach (Autodesk.Revit.DB.CurveArray ar in caa)
             {
                 foreach (Autodesk.Revit.DB.Curve cur in ar)
                 {
-                    CurveIds.Add(cur.Reference.ElementId.IntegerValue);
+                    List_CurveIds.Add(cur.Reference.ElementId.IntegerValue);
                 }
             }
         }
